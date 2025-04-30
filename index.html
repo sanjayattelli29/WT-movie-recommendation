@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Basic styling */
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #222;
+            padding: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar select,
+        .navbar input,
+        .navbar button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        
+        .navbar select,
+        .navbar input {
+            width: 180px;
+        }
+        
+        .navbar button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .navbar button:hover {
+            background-color: #218838;
+        }
+        
+        .movie-card {
+            background-color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            width: 280px;
+            text-align: center;
+            display: inline-block;
+            vertical-align: top;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .movie-card h3 {
+            font-size: 22px;
+            color: #333;
+            margin: 15px 0;
+        }
+        
+        .movie-card p {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .movie-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        /* Hover effect to enlarge the card */
+        
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        #movie-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+        }
+        
+        .no-movies {
+            text-align: center;
+            font-size: 18px;
+            color: #ff6347;
+            margin-top: 50px;
+        }
+        /* Responsive Design */
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .navbar select,
+            .navbar input,
+            .navbar button {
+                width: 100%;
+                margin: 5px 0;
+            }
+            #movie-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            .movie-card {
+                width: 90%;
+                margin: 10px 0;
+            }
+        }
+        /* New styles for user features */
+        
+        .user-section {
+            background: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .user-form input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .rating-stars {
+            color: gold;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .watch-history {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .recommendations {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Movie Recommendation System</h1>
+
+    <!-- User Section -->
+    <div class="user-section">
+        <h2>User Profile</h2>
+        <div class="user-form">
+            <input type="text" id="username" placeholder="Username">
+            <input type="email" id="email" placeholder="Email">
+            <button onclick="createUser()">Create Profile</button>
+        </div>
+        <div id="user-info"></div>
+    </div>
+
+    <!-- Navbar with Filters -->
+    <div class="navbar">
+        <div>
+            <!-- Genre dropdown -->
+            <select id="genre">
+                <option value="">Select Genre</option>
+                <option value="Action">Action</option>
+                <option value="Drama">Drama</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Romance">Romance</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Horror">Horror</option>
+                <!-- Add more genres as needed -->
+            </select>
+
+            <!-- Rating filter -->
+            <input type="number" id="minRating" placeholder="Min Rating" step="0.1">
+
+            <!-- Year filter -->
+            <input type="number" id="year" placeholder="Enter Year">
+
+            <button onclick="applyFilters()">Apply Filters</button>
+        </div>
+    </div>
+
+    <!-- Movie List -->
+    <div id="movie-list">
+        <!-- Movies will be shown here -->
+    </div>
+
+    <script>
+        let currentUserId = null;
+
+        // Create user profile
+        async function createUser() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+
+            try {
+                const response = await fetch('http://localhost:8080/api/jdbc/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        email
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    currentUserId = result.userId;
+                    document.getElementById('user-info').innerHTML = `
+                        <p>Welcome, ${username}! Your user ID is: ${currentUserId}</p>
+                    `;
+                    loadUserHistory();
+                    loadRecommendations();
+                } else {
+                    alert('Error creating user: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to create user profile');
+            }
+        }
+
+        // Add movie rating
+        async function rateMovie(movieId, rating) {
+            if (!currentUserId) {
+                alert('Please create a user profile first');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:8080/api/jdbc/ratings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: currentUserId,
+                        movieId,
+                        rating
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('Rating added successfully!');
+                    loadUserHistory();
+                    loadRecommendations();
+                } else {
+                    alert('Error adding rating: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to add rating');
+            }
+        }
+
+        // Add to watch history
+        async function addToWatchHistory(movieId) {
+            if (!currentUserId) {
+                alert('Please create a user profile first');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:8080/api/jdbc/watch-history', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: currentUserId,
+                        movieId
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('Added to watch history!');
+                    loadUserHistory();
+                    loadRecommendations();
+                } else {
+                    alert('Error adding to watch history: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to add to watch history');
+            }
+        }
+
+        // Load user's watch history
+        async function loadUserHistory() {
+            if (!currentUserId) return;
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/jdbc/users/${currentUserId}/history`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const historyHtml = result.history.map(item => `
+                        <div>
+                            <p>${item.movieId} - Watched on: ${new Date(item.watchedAt).toLocaleDateString()}</p>
+                            ${item.rating ? `<p>Your rating: ${item.rating}⭐</p>` : ''}
+                        </div>
+                    `).join('');
+
+                    document.getElementById('user-info').innerHTML += `
+                        <div class="watch-history">
+                            <h3>Watch History</h3>
+                            ${historyHtml}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Load recommendations
+        async function loadRecommendations() {
+            if (!currentUserId) return;
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/jdbc/users/${currentUserId}/recommendations`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const recommendationsHtml = result.recommendations.map(item => `
+                        <div>
+                            <p>${item.movieId} - Average Rating: ${item.averageRating.toFixed(1)}⭐</p>
+                        </div>
+                    `).join('');
+
+                    document.getElementById('user-info').innerHTML += `
+                        <div class="recommendations">
+                            <h3>Recommended for You</h3>
+                            ${recommendationsHtml}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Modify existing fetchMovies function to include rating and watch history buttons
+        async function fetchMovies(filters = {}) {
+            try {
+                const queryString = new URLSearchParams(filters).toString();
+                const response = await fetch(`http://localhost:5000/api/movies?${queryString}`);
+                const movies = await response.json();
+
+                const movieList = document.getElementById('movie-list');
+                movieList.innerHTML = '';
+
+                if (movies.length === 0) {
+                    movieList.innerHTML = '<div class="no-movies">No movies found based on the selected filters.</div>';
+                }
+
+                movies.forEach(movie => {
+                    const movieCard = document.createElement('div');
+                    movieCard.className = 'movie-card';
+                    movieCard.innerHTML = `
+                        <h3>${movie.title} (${movie.year})</h3>
+                        <p><strong>Director:</strong> ${movie.director}</p>
+                        <p><strong>Rating:</strong> ${movie.rating}</p>
+                        ${currentUserId ? `
+                            <div class="rating-stars">
+                                ${[1,2,3,4,5].map(star => `
+                                    <span onclick="rateMovie('${movie._id}', ${star})">⭐</span>
+                                `).join('')}
+                            </div>
+                            <button onclick="addToWatchHistory('${movie._id}')">Add to Watch History</button>
+                        ` : ''}
+                    `;
+                    movieList.appendChild(movieCard);
+                });
+            } catch (error) {
+                console.log('Error fetching movies:', error);
+            }
+        }
+
+        // Fetch movies on page load
+        fetchMovies();
+
+        // Apply filters based on user input
+        function applyFilters() {
+            const genre = document.getElementById('genre').value;
+            const minRating = document.getElementById('minRating').value;
+            const year = document.getElementById('year').value;
+
+            // Prepare filter object
+            const filters = {};
+            if (genre) filters.genre = genre;
+            if (minRating) filters.minRating = minRating;
+            if (year) filters.year = year;
+
+            // Fetch filtered movies
+            fetchMovies(filters);
+        }
+    </script>
+</body>
+
+</html>
