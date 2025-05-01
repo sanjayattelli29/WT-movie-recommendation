@@ -1,0 +1,46 @@
+-- Create movies table
+CREATE TABLE IF NOT EXISTS movies (
+    movie_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    year INT,
+    genres VARCHAR(255),
+    rating DECIMAL(3,1),
+    director VARCHAR(255),
+    actors TEXT
+);
+
+-- Insert movie data
+INSERT INTO movies (title, year, genres, rating, director, actors) VALUES
+('Maanagaram', 2017, 'Action,Thriller', 7.6, 'Lokesh Kanagaraj', 'Sivakarthikeyan,Regina Cassandra,Sree,Naveen'),
+('Jigarthanda', 2014, 'Crime,Drama,Thriller', 8.0, 'Karthik Subbaraj', 'Siddharth,Lakshmi Menon,Bobby Simha'),
+('Aruvi', 2016, 'Drama', 8.0, 'Kohil', 'Aditi Balan,Lakshmi Gopalaswamy,Saara Ramesh'),
+('Vikram Vedha', 2017, 'Action,Thriller', 8.2, 'Pushkar-Gayathri', 'Vijay Sethupathi,R. Madhavan,Shraddha Srinath'),
+('Kumki', 2012, 'Drama,Romance', 7.7, 'Prabhu Solomon', 'Vikram Prabhu,Lakshmi Menon,Thambi Ramaiah'),
+('96', 2018, 'Romance,Drama', 8.4, 'C. Prem Kumar', 'Trisha Krishnan,Vijay Sethupathi,Varsha Bollamma'),
+('Super Deluxe', 2019, 'Comedy,Drama', 8.0, 'Thiagarajan Kumararaja', 'Vijay Sethupathi,Fahadh Faasil,Samantha Ruth Prabhu'),
+('Kaithi', 2019, 'Action,Thriller', 8.4, 'Lokesh Kanagaraj', 'Karthi,Narain,Arjun Das'),
+('Vikram', 2022, 'Action,Thriller', 8.2, 'Lokesh Kanagaraj', 'Kamal Haasan,Fahadh Faasil,Vijay Sethupathi'),
+('Mersal', 2017, 'Action,Drama', 7.9, 'Atlee', 'Vijay,Samantha Ruth Prabhu,Nithya Menen'),
+('Ratchasan', 2018, 'Crime,Thriller', 8.3, 'Ram Kumar', 'Vishnu Vishal,Amala Paul,Kaali Venkat'),
+('Kaanal Neer', 2020, 'Drama', 7.5, 'R. K. Suresh', 'Shanthi Priya,Ajay'),
+('Vada Chennai', 2018, 'Crime,Drama', 8.4, 'Vetrimaaran', 'Dhanush,Ameer,Andrea Jeremiah'),
+('Asuran', 2019, 'Action,Drama', 8.5, 'Vetrimaaran', 'Dhanush,Manju Warrier,Pasupathi'),
+('Nerkonda Paarvai', 2019, 'Drama,Thriller', 7.8, 'H. Vinoth', 'Ajith Kumar,Shraddha Srinath,Abhirami'),
+('Sivakarthikeyan''s Hero', 2020, 'Action,Comedy', 6.6, 'P.S. Mithran', 'Sivakarthikeyan,Kalyani Priyadarshan,Arjun Sarja'),
+('Kuruthi', 2021, 'Action,Thriller', 7.4, 'Manu Warrier', 'Prithviraj Sukumaran,Murali Gopy,Srinda Arhaan'),
+('Kaaka Muttai', 2015, 'Drama', 8.2, 'Manikandan', 'Vignesh,Ramesh,Muthuraman'),
+('Kuttram 23', 2017, 'Thriller,Crime', 7.5, 'Arivazhagan Venkatachalam', 'Arulnithi,Saiyami Kher,Aishwarya Rajesh'),
+('Anjali', 1990, 'Drama', 7.7, 'Mani Ratnam', 'Ramesh Arvind,Revathi,Sridevi'),
+('Vinnai Thandi Varuvaya', 2010, 'Romance,Drama', 8.1, 'Gautham Vasudev Menon', 'Silambarasan,Trisha Krishnan,K.S. Ravikumar'),
+('Taramani', 2017, 'Drama,Romance', 7.4, 'Ram', 'Andrea Jeremiah,Vasanth Ravi,Azhagam Perumal'),
+('Sila Samayangalil', 2018, 'Drama', 7.5, 'P. Ramesh', 'Ashok Selvan,Vidya Pradeep,Sriranjani'),
+('Vishwaroopam', 2013, 'Action,Thriller', 8.0, 'Kamal Haasan', 'Kamal Haasan,Rahul Bose,Pooja Kumar'),
+('Iru Mugan', 2016, 'Action,Sci-Fi', 6.9, 'A. L. Vijay', 'Vikram,Nayanthara,Nithya Menen'),
+('Jeeva', 2014, 'Drama,Action', 6.8, 'Suseenthiran', 'Jiiva,Nayanthara,Sampath Raj'),
+('Oru Kuppai Kadhai', 2018, 'Drama', 7.3, 'Virumandi', 'M.S. Bhaskar,Nivetha Pethuraj,Gajaraj'),
+('Kalyana Samayal Saadham', 2013, 'Romance,Comedy', 7.5, 'R. S. Prasanna', 'Prasanna,Lekha Washington,Sathish'),
+('Malli Raava', 2017, 'Romance,Drama', 7.7, 'Gautham Tinnanuri', 'Sree Vishnu,Aakanksha Singh,Siva Parvathi'),
+('Anukokunda Oka Roju', 2005, 'Thriller,Crime', 7.9, 'Chandra Sekhar Yeleti', 'Charmy Kaur,Srikant,Sunil'),
+('Sye', 2004, 'Drama,Sports', 7.7, 'Sekhar Kammula', 'Nitin,Shashank,Genelia D''Souza'),
+('Pellichoopulu', 2016, 'Romance,Comedy', 7.8, 'Tharun Bhascker', 'Vijay Devarakonda,Ritu Varma,Nassar'),
+('Thiruttu Payale 2', 2017, 'Thriller,Crime', 6.6, 'Susi Ganesan', 'Bobby Simha,Amala Paul,Prasanna'); 

@@ -1,0 +1,381 @@
+# Movie Recommendation System Documentation
+
+## Abstract
+This document provides a comprehensive overview of the Movie Recommendation System implemented using Java, JDBC, and MySQL. The system allows users to get personalized movie recommendations based on their watch history and ratings.
+
+## Table of Contents
+1. System Architecture
+2. Database Design
+3. JDBC Implementation
+4. API Endpoints
+5. Data Management
+6. Commands and Operations
+7. Troubleshooting
+8. Future Enhancements
+9. Conclusion
+
+## 1. System Architecture
+
+### 1.1 Technology Stack
+- Backend: Java Spring Boot
+- Database: MySQL
+- Database Access: JDBC (Java Database Connectivity)
+- API: RESTful endpoints
+- Data Management: Python script for initial data population
+
+### 1.2 System Components
+- MovieJDBCService: Core service handling database operations
+- MovieRecommendationApplication: Main Spring Boot application
+- Database Tables:
+  * movies: Stores movie information
+  * users: Stores user information
+  * user_ratings: Stores user ratings for movies
+  * watch_history: Stores user watch history
+
+### 1.3 Data Flow
+1. User registration
+2. Movie rating and watch history tracking
+3. Recommendation generation
+4. Data persistence in MySQL
+
+## 2. Database Design
+
+### 2.1 Tables Structure
+
+#### movies Table
+```sql
+CREATE TABLE movies (
+    movie_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    year INT,
+    genres VARCHAR(255),
+    rating DECIMAL(3,1),
+    director VARCHAR(255),
+    actors TEXT
+);
+```
+
+#### users Table
+```sql
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### user_ratings Table
+```sql
+CREATE TABLE user_ratings (
+    rating_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    movie_id INT,
+    rating DECIMAL(3,1),
+    rated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(movie_id)
+);
+```
+
+#### watch_history Table
+```sql
+CREATE TABLE watch_history (
+    history_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    movie_id INT,
+    watched_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(movie_id)
+);
+```
+
+## 3. JDBC Implementation
+
+### 3.1 Connection Management
+```java
+private static final String URL = "jdbc:mysql://localhost:3306/movie_user_db";
+private static final String USER = "root";
+private static final String PASSWORD = "sanjay123";
+
+private Connection getConnection() throws SQLException {
+    return DriverManager.getConnection(URL, USER, PASSWORD);
+}
+```
+
+### 3.2 Key Operations
+
+#### 3.2.1 User Management
+```java
+public Map<String, Object> addUser(String username, String email) {
+    String sql = "INSERT INTO users (username, email) VALUES (?, ?)";
+    // Implementation details
+}
+```
+
+#### 3.2.2 Rating Management
+```java
+public Map<String, Object> addRating(int userId, int movieId, double rating) {
+    String sql = "INSERT INTO user_ratings (user_id, movie_id, rating) VALUES (?, ?, ?)";
+    // Implementation details
+}
+```
+
+#### 3.2.3 Watch History
+```java
+public Map<String, Object> addToWatchHistory(int userId, int movieId) {
+    String sql = "INSERT INTO watch_history (user_id, movie_id) VALUES (?, ?)";
+    // Implementation details
+}
+```
+
+#### 3.2.4 Recommendations
+```java
+public Map<String, Object> getRecommendations(int userId) {
+    String sql = """
+        SELECT DISTINCT r.movie_id, AVG(r.rating) as avg_rating
+        FROM user_ratings r 
+        WHERE r.movie_id NOT IN (
+            SELECT movie_id FROM watch_history WHERE user_id = ?
+        )
+        AND r.rating >= 4.0
+        GROUP BY r.movie_id
+        ORDER BY avg_rating DESC
+        LIMIT 10
+    """;
+    // Implementation details
+}
+```
+
+## 4. API Endpoints
+
+### 4.1 User Management
+- POST /api/jdbc/users
+  * Creates a new user
+  * Request body: { "username": "string", "email": "string" }
+
+### 4.2 Rating Management
+- POST /api/jdbc/ratings
+  * Adds a movie rating
+  * Request body: { "userId": number, "movieId": number, "rating": number }
+
+### 4.3 Watch History
+- POST /api/jdbc/watch-history
+  * Adds to watch history
+  * Request body: { "userId": number, "movieId": number }
+
+### 4.4 Recommendations
+- GET /api/jdbc/users/{userId}/recommendations
+  * Gets movie recommendations for a user
+
+## 5. Data Management
+
+### 5.1 Initial Data Population
+The Python script (app.py) is used to populate the movies table with initial data.
+
+#### 5.1.1 Running the Script
+```bash
+python app.py
+```
+
+#### 5.1.2 Script Operations
+1. Drops existing movies table
+2. Creates new movies table
+3. Inserts movie data
+4. Verifies data insertion
+
+### 5.2 Data Updates
+To update movie data:
+
+1. Modify the movies_data array in app.py
+2. Run the script again:
+```bash
+python app.py
+```
+
+## 6. Commands and Operations
+
+### 6.1 Database Operations
+
+#### 6.1.1 View All Movies
+```sql
+SELECT * FROM movies;
+```
+
+#### 6.1.2 View User Ratings
+```sql
+SELECT * FROM user_ratings WHERE user_id = [user_id];
+```
+
+#### 6.1.3 View Watch History
+```sql
+SELECT * FROM watch_history WHERE user_id = [user_id];
+```
+
+### 6.2 Application Operations
+
+#### 6.2.1 Starting the Application
+```bash
+mvn spring-boot:run
+```
+
+#### 6.2.2 Testing Endpoints
+```bash
+curl -X POST http://localhost:8080/api/jdbc/users -H "Content-Type: application/json" -d '{"username":"test","email":"test@example.com"}'
+```
+
+## 7. Troubleshooting
+
+### 7.1 Common Issues
+
+#### 7.1.1 Connection Issues
+- Verify MySQL service is running
+- Check database credentials
+- Ensure database exists
+
+#### 7.1.2 Data Issues
+- Check table structure
+- Verify data types
+- Ensure foreign key constraints
+
+### 7.2 Error Handling
+- Implement proper exception handling
+- Log errors for debugging
+- Provide meaningful error messages
+
+## 8. Future Enhancements
+
+### 8.1 Planned Improvements
+- Implement user authentication
+- Add movie search functionality
+- Enhance recommendation algorithm
+- Add movie details API
+- Implement user preferences
+
+### 8.2 Performance Optimization
+- Add database indexes
+- Implement connection pooling
+- Optimize SQL queries
+- Add caching layer
+
+## 9. Conclusion
+
+### 9.1 System Summary
+The Movie Recommendation System provides a robust platform for:
+- User management
+- Movie rating and tracking
+- Personalized recommendations
+- Data persistence and retrieval
+
+### 9.2 Key Features
+- JDBC-based database operations
+- RESTful API endpoints
+- Efficient data management
+- Scalable architecture
+
+### 9.3 Best Practices
+- Use prepared statements for security
+- Implement proper error handling
+- Follow REST API conventions
+- Maintain clean code structure
+
+## Appendix A: Configuration Files
+
+### application.properties
+```properties
+server.port=8080
+spring.datasource.url=jdbc:mysql://localhost:3306/movie_user_db?createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=sanjay123
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+logging.level.org.springframework=INFO
+logging.level.com.movierecommendation=DEBUG
+```
+
+## Appendix B: Sample Data
+
+### Movie Data Format
+```json
+{
+    "title": "Movie Title",
+    "year": 2023,
+    "genres": "Action,Drama",
+    "rating": 8.5,
+    "director": "Director Name",
+    "actors": "Actor1,Actor2,Actor3"
+}
+```
+
+## Appendix C: API Response Formats
+
+### User Creation Response
+```json
+{
+    "success": true,
+    "userId": 1,
+    "message": "User created successfully"
+}
+```
+
+### Rating Response
+```json
+{
+    "success": true,
+    "message": "Rating added successfully"
+}
+```
+
+### Watch History Response
+```json
+{
+    "success": true,
+    "message": "Added to watch history successfully"
+}
+```
+
+### Recommendations Response
+```json
+{
+    "success": true,
+    "recommendations": [
+        {
+            "movieId": 1,
+            "averageRating": 8.5
+        }
+    ]
+}
+```
+
+## Appendix D: Database Maintenance
+
+### Backup Commands
+```bash
+mysqldump -u root -p movie_user_db > backup.sql
+```
+
+### Restore Commands
+```bash
+mysql -u root -p movie_user_db < backup.sql
+```
+
+## Appendix E: Development Guidelines
+
+### Code Style
+- Follow Java naming conventions
+- Use meaningful variable names
+- Add proper documentation
+- Implement proper error handling
+
+### Testing
+- Write unit tests for all services
+- Test database operations
+- Verify API endpoints
+- Check error scenarios
+
+### Deployment
+- Use proper version control
+- Follow deployment checklist
+- Monitor application logs
+- Regular database backups 
