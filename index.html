@@ -5,226 +5,347 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Recommendation System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* Basic styling */
+         :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #ffffff;
+            --text-color: #2c3e50;
+            --light-gray: #f5f6fa;
+            --medium-gray: #dcdde1;
+            --dark-gray: #7f8c8d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        
-        h1 {
-            font-size: 36px;
-            font-weight: 700;
-            text-align: center;
-            margin-top: 20px;
-            color: #333;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
         
         .navbar {
-            background-color: #222;
-            padding: 20px;
-            color: white;
+            background-color: var(--background-color);
+            padding: 15px 50px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
-        .navbar select,
-        .navbar input,
-        .navbar button {
-            padding: 10px;
-            margin: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
+        .logo {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
         
         .navbar select,
         .navbar input {
-            width: 180px;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            border: 1px solid var(--medium-gray);
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 150px;
         }
         
         .navbar button {
-            background-color: #28a745;
+            background-color: var(--secondary-color);
             color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
             cursor: pointer;
+            font-weight: 500;
             transition: background-color 0.3s ease;
         }
         
         .navbar button:hover {
-            background-color: #218838;
+            background-color: #2980b9;
+        }
+        
+        .main-container {
+            display: flex;
+            margin-top: 60px;
+            min-height: calc(100vh - 60px);
+        }
+        
+        .sidebar {
+            width: 300px;
+            background-color: var(--light-gray);
+            padding: 20px;
+            position: fixed;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filters-section {
+            margin-bottom: 30px;
+        }
+        
+        .filters-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            background-color: white;
+            color: var(--text-color);
+        }
+        
+        .filter-group button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .filter-group button:hover {
+            background-color: #2980b9;
+        }
+        
+        .content {
+            flex: 1;
+            margin-left: 300px;
+            padding: 20px;
+        }
+        
+        .hero {
+            height: 30vh;
+            margin: 0;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://source.unsplash.com/random/1920x1080/?movie') center/cover;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        #movie-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
         }
         
         .movie-card {
-            background-color: #fff;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            margin: 15px;
-            padding: 20px;
-            border-radius: 15px;
-            width: 280px;
-            text-align: center;
-            display: inline-block;
-            vertical-align: top;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .movie-card h3 {
-            font-size: 22px;
-            color: #333;
-            margin: 15px 0;
-        }
-        
-        .movie-card p {
-            font-size: 14px;
-            color: #555;
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
         
         .movie-card img {
             width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        /* Hover effect to enlarge the card */
-        
-        .movie-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+            height: 375px;
+            object-fit: cover;
         }
         
-        #movie-list {
+        .movie-info {
+            padding: 15px;
+        }
+        
+        .movie-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+        
+        .movie-card p {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+        
+        .rating-stars {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 20px;
+            gap: 5px;
+            margin: 10px 0;
+        }
+        
+        .rating-stars span {
+            color: #f1c40f;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .rating-stars span:hover {
+            transform: scale(1.2);
+        }
+        
+        .watch-history,
+        .recommendations {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .watch-history h3,
+        .recommendations h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
         }
         
         .no-movies {
             text-align: center;
-            font-size: 18px;
-            color: #ff6347;
-            margin-top: 50px;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            padding: 40px;
+            grid-column: 1 / -1;
         }
-        /* Responsive Design */
         
         @media (max-width: 768px) {
-            .navbar {
+            .main-container {
                 flex-direction: column;
-                align-items: flex-start;
             }
-            .navbar select,
-            .navbar input,
-            .navbar button {
+            .sidebar {
                 width: 100%;
-                margin: 5px 0;
+                position: relative;
+                height: auto;
+                margin-bottom: 20px;
             }
-            #movie-list {
-                flex-direction: column;
-                align-items: center;
+            .content {
+                margin-left: 0;
             }
-            .movie-card {
-                width: 90%;
-                margin: 10px 0;
+            .hero {
+                height: 25vh;
+            }
+            .hero h1 {
+                font-size: 2rem;
             }
         }
-        /* New styles for user features */
+        /* Custom scrollbar */
         
-        .user-section {
-            background: white;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+         ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
         
-        .user-form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+         ::-webkit-scrollbar-track {
+            background: var(--light-gray);
         }
         
-        .user-form input {
-            padding: 8px;
-            border: 1px solid #ddd;
+         ::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
             border-radius: 4px;
         }
         
-        .rating-stars {
-            color: gold;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        
-        .watch-history {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .recommendations {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e9ecef;
-            border-radius: 8px;
+         ::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
     </style>
 
 </head>
 
 <body>
+    <nav class="navbar">
+        <a href="#" class="logo">Movie Recommendation System</a>
+    </nav>
 
-    <h1>Movie Recommendation System</h1>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="filters-section">
+                <h3>Filter Movies</h3>
+                <div class="filter-group">
+                    <label for="genre">Genre</label>
+                    <select id="genre">
+                        <option value="">All Genres</option>
+                        <option value="Action">Action</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Horror">Horror</option>
+                    </select>
+                </div>
 
-    <!-- User Section -->
-    <div class="user-section">
-        <h2>User Profile</h2>
-        <div class="user-form">
-            <input type="text" id="username" placeholder="Username">
-            <input type="email" id="email" placeholder="Email">
-            <button onclick="createUser()">Create Profile</button>
-        </div>
-        <div id="user-info"></div>
-    </div>
+                <div class="filter-group">
+                    <label for="minRating">Minimum Rating</label>
+                    <input type="number" id="minRating" placeholder="Enter minimum rating" step="0.1" min="0" max="5">
+                </div>
 
-    <!-- Navbar with Filters -->
-    <div class="navbar">
-        <div>
-            <!-- Genre dropdown -->
-            <select id="genre">
-                <option value="">Select Genre</option>
-                <option value="Action">Action</option>
-                <option value="Drama">Drama</option>
-                <option value="Comedy">Comedy</option>
-                <option value="Romance">Romance</option>
-                <option value="Thriller">Thriller</option>
-                <option value="Fantasy">Fantasy</option>
-                <option value="Adventure">Adventure</option>
-                <option value="Horror">Horror</option>
-                <!-- Add more genres as needed -->
-            </select>
+                <div class="filter-group">
+                    <label for="year">Release Year</label>
+                    <input type="number" id="year" placeholder="Enter year">
+                </div>
 
-            <!-- Rating filter -->
-            <input type="number" id="minRating" placeholder="Min Rating" step="0.1">
+                <div class="filter-group">
+                    <button onclick="applyFilters()">Apply Filters</button>
+                </div>
+            </div>
+        </aside>
 
-            <!-- Year filter -->
-            <input type="number" id="year" placeholder="Enter Year">
+        <main class="content">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Discover Your Next Fav Movie</h1>
+                </div>
+            </section>
 
-            <button onclick="applyFilters()">Apply Filters</button>
-        </div>
-    </div>
-
-    <!-- Movie List -->
-    <div id="movie-list">
-        <!-- Movies will be shown here -->
+            <div id="movie-list">
+                <!-- Movies will be shown here -->
+            </div>
+        </main>
     </div>
 
     <script>
@@ -386,7 +507,7 @@
             }
         }
 
-        // Modify existing fetchMovies function to include rating and watch history buttons
+        // Modify fetchMovies function to include movie images
         async function fetchMovies(filters = {}) {
             try {
                 const queryString = new URLSearchParams(filters).toString();
@@ -404,17 +525,22 @@
                     const movieCard = document.createElement('div');
                     movieCard.className = 'movie-card';
                     movieCard.innerHTML = `
-                        <h3>${movie.title} (${movie.year})</h3>
-                        <p><strong>Director:</strong> ${movie.director}</p>
-                        <p><strong>Rating:</strong> ${movie.rating}</p>
-                        ${currentUserId ? `
-                            <div class="rating-stars">
-                                ${[1,2,3,4,5].map(star => `
-                                    <span onclick="rateMovie('${movie._id}', ${star})">⭐</span>
-                                `).join('')}
-                            </div>
-                            <button onclick="addToWatchHistory('${movie._id}')">Add to Watch History</button>
-                        ` : ''}
+                        <img src="https://source.unsplash.com/random/300x450/?movie,${movie.title}" alt="${movie.title}">
+                        <div class="movie-info">
+                            <h3>${movie.title} (${movie.year})</h3>
+                            <p><strong>Director:</strong> ${movie.director}</p>
+                            <p><strong>Rating:</strong> ${movie.rating}</p>
+                            ${currentUserId ? `
+                                <div class="rating-stars">
+                                    ${[1,2,3,4,5].map(star => `
+                                        <span onclick="rateMovie('${movie._id}', ${star})">⭐</span>
+                                    `).join('')}
+                                </div>
+                                <button onclick="addToWatchHistory('${movie._id}')" style="width: 100%; margin-top: 10px; padding: 8px; background-color: var(--netflix-red); color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    Add to Watch History
+                                </button>
+                            ` : ''}
+                        </div>
                     `;
                     movieList.appendChild(movieCard);
                 });
@@ -441,6 +567,16 @@
             // Fetch filtered movies
             fetchMovies(filters);
         }
+
+        // Add scroll event listener for navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
     </script>
 </body>
 
