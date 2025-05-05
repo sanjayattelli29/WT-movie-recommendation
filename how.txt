@@ -1,0 +1,28 @@
+nodemon server.js
+
+
+node execute.js
+
+next - > 
+cmd (admin) net start mysql93
+
+Termincal ->
+mvn clean install
+mvn spring-boot:run
+
+To verify : 
+
+Open Mysql client 
+
+SHOW DATABASES;
+USE movie_user_db;
+
+SHOW TABLES;
+
+(depend up on the tables)
+SELECT * FROM users LIMIT 10;  
+SELECT * FROM movies;
+
+SELECT COUNT(*) FROM movies;
+
+

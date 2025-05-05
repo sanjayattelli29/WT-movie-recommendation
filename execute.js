@@ -1,7 +1,7 @@
 console.clear();
 console.log("Initializing server components...");
 setTimeout(() => {
-  console.log("Connecting to MongoDB Atlas...");
+  console.log("Connecting to JDBC ...");
 }, 800);
 
 setTimeout(() => {
