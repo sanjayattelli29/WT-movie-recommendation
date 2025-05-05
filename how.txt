@@ -1,12 +1,12 @@
-nodemon server.js
+nodemon server.js  vs code terminal 
 
-
-node execute.js
+next -> mysql 
+password : sanjay123
 
 next - > 
 cmd (admin) net start mysql93
 
-Termincal ->
+vs code Termincal ->
 mvn clean install
 mvn spring-boot:run
 
