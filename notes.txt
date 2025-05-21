@@ -1,0 +1,129 @@
+sri ram zip file (mam files)
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/wtlf.zip
+
+
+
+week 1-4 :
+
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/week%201%20-%204.zip
+
+week 5 XML Structure and Design
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/week%205%20XML%20Structure%20and%20Design.txt
+
+WEEK 6 User Account XML :
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/WEEK%206%20User%20Account%20XML.txt
+
+WEEK 8 Servlet for Book Retrieval :
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/WEEK%208%20Servlet%20for%20Book%20Retrieval.txt
+
+WEEK 9 User Authentication :
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/WEEK%209%20User%20Authentication.txt
+
+WEEK 10 Hibernate :
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/WEEK%2010%20Hibernate.txt
+
+
+WEEK 11 CRUD Operations :
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/WEEK%2011%20CRUD%20Operations.txt
+
+WEEK 12 Full-Stack Integration :
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/WEEK%2012%20Full-Stack%20Integration.txt
+
+
+WEEK 13  Checkout Process :
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/WEEK%2013%20%20Checkout%20Process.txt
+
+
+WEEK 14 Deployment and Advanced Features:
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/WEEK%2014%20Deployment%20and%20Advanced%20Features.txt
+
+
+war file create.txt : 
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/war%20file%20create.txt
+
+mysql-password.txt:
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/mysql-password.txt
+
+crud-operations.txt only mysql
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/crud.txt
+
+fake-console-print.txt in node execute.js
+https://raw.githubusercontent.com/sanjayattelli29/wt-lab/master/fake-console.txt
+
+
+gmail
+sanjayattelli01@gmail.com
+29@Sanjaykumar
+
+
+github or cursor 
+sanjayattelli01
+29@Sanjay
+
+
+
+viva Q&A
+WEEK 1–3: Frontend (HTML, CSS, JS) 
+1. Q: What are HTML frames used for? 
+A: HTML frames divide the browser window into mul ple sec ons, each displaying a 
+different HTML page. 
+2. Q: What are the three frames used in your Week-1 task? 
+A: Naviga on frame, content frame, and footer frame. 
+3. Q: How does CSS improve a webpage? 
+A: CSS enhances the visual appeal by styling fonts, colors, layouts, and posi oning. 
+4. Q: What valida on is required for the username in the registra on form? 
+A: Username must not be empty and must be at least 5 characters long. 
+5. Q: How is password valida on handled in JavaScript? 
+A: It checks if the password is not empty and has at least 8 characters. 
+6. Q: What happens if the confirm password doesn’t match? 
+A: An error is shown promp ng the user to match the password fields. 
+7. Q: How is email validated in the Forgot Password form? 
+A: Using regular expressions to ensure proper email format. 
+8. Q: What feedback is given if the email isn’t found? 
+A: A message indica ng the email is not associated with any account. 
+9. Q: How does dynamic content loading work? 
+A: JavaScript fetches and displays book data in the content frame upon naviga on click. 
+WEEK 4–6: Cart & XML 
+10. Q: How does the shopping cart work in JavaScript? 
+A: It stores selected books in memory (like arrays or localStorage) and displays them. 
+11. Q: What informa on does the Book Catalog XML contain? 
+A: Title, author, genre, price, and availability. 
+12. Q: Why is XML used in web projects? 
+A: To store and transport structured data in a readable format. 
+13. Q: What details are stored in the User Account XML? 
+A: Username, encrypted password, email, and purchase history. 
+WEEK 7–9: Server Setup & Servlets 
+14. Q: What is Apache Tomcat? 
+A: It’s a servlet container that runs Java-based web applica ons. 
+15. Q: How do you configure Tomcat in Eclipse? 
+A: By adding it under the “Servers” tab and linking it with the project runme. 
+16. Q: What does the book retrieval servlet do? 
+A: It fetches book data from the database and sends it to the frontend. 
+17. Q: How is user login handled with servlets? 
+A: Using HTTP requests to validate creden als and manage session states. 
+18. Q: What is JSP used for in authen ca on? 
+A: For displaying dynamic content based on user login status. 
+WEEK 10–11: Hibernate & CRUD 
+19. Q: What is Hibernate? 
+A: Hibernate is a Java ORM framework used to map Java classes to database tables. 
+20. Q: What are en ty classes in Hibernate? 
+A: They are POJOs annotated to represent database tables. 
+21. Q: What CRUD opera ons are implemented? 
+A: Create, Read, Update, and Delete opera ons on book records. 
+22. Q: Why is Hibernate preferred over JDBC? 
+A: It reduces boilerplate code and simplifies database interac ons. 
+WEEK 12–14: Full-stack Integra on & Deployment 
+23. Q: How is JavaScript integrated with servlets? 
+A: Using AJAX to call servlets and update content without reloading the page. 
+24. Q: What happens in the checkout process? 
+A: Users review cart, enter shipping info, and place orders via servlets and JSP. 
+25. Q: How is cart data passed to the checkout page? 
+A: Through sessions or request parameters handled by servlets. 
+26. Q: What is the benefit of cloud deployment? 
+A: Makes the web app accessible globally and supports real-world scalability. 
+27. Q: What servlet container is used for deployment? 
+A: Apache Tomcat. 
+28. Q: How do you secure user passwords in XML or DB? 
+A: By storing encrypted or hashed passwords using algorithms like SHA-256. 
+29. Q: What is session management in web applica ons? 
+A: It maintains user data across mul ple pages a er login. 
